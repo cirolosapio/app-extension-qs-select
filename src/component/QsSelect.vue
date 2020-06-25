@@ -87,8 +87,8 @@ export default {
     },
     url: {
       type: Object,
-      validator ({ route }) {
-        return !!route
+      validator ({ route, instance }) {
+        return route && instance
       }
     },
     multiple: Boolean,
@@ -96,8 +96,7 @@ export default {
     noDenseCounter: Boolean,
     noOnly: Boolean,
     noReverse: Boolean,
-    noSelectAll: Boolean,
-    request: Function
+    noSelectAll: Boolean
   },
 
   data () {
@@ -141,7 +140,7 @@ export default {
       return this.opts.filter(({ value }) => this.value.includes(value)).map(({ label }) => label).join(', ')
     },
 
-    isLazy () { return !!this.url && !!this.request },
+    isLazy () { return this.url.route && this.url.instance },
     highlight () {
       return label => {
         const regex = new RegExp(`(${this.needle})`, 'ig')
@@ -175,7 +174,7 @@ export default {
     },
     async getOptions (filter) {
       const params = { filter, ...this.url.filters }
-      const { data } = await this.request(this.url.route, { params })
+      const { data } = await this.url.instance(this.url.route, { params })
       return this.parseOptions(data)
     },
     parseOptions (options) {
