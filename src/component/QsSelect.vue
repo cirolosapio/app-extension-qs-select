@@ -37,9 +37,6 @@
     </template>
 
     <slot name="default" />
-    <template #before>
-      <slot name="before" />
-    </template>
     <template #after>
       <slot name="after" />
     </template>
