@@ -85,6 +85,9 @@ export default {
         return route && instance
       }
     },
+    optionValue: String,
+    optionLabel: String,
+    optionDisable: String,
     multiple: Boolean,
     noClear: Boolean,
     noDenseCounter: Boolean,
@@ -175,9 +178,9 @@ export default {
       return typeof options[0] === 'string'
         ? options.map(item => ({ label: item, value: item }))
         : options.map(({ value, label, disable, ...item }) => ({
-          value: value || item[this.$attrs['option-value']],
-          label: label || item[this.$attrs['option-label']],
-          disable: disable || item[this.$attrs['option-disable']],
+          value: value || item[this.optionValue],
+          label: label || item[this.optionLabel],
+          disable: disable || item[this.optionDisable],
           item: this.haveToEmit ? item : undefined
         }))
     },
