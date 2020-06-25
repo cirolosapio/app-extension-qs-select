@@ -46,9 +46,6 @@
     <template #hint>
       <slot name="hint" />
     </template>
-    <template #loading>
-      <slot name="loading" />
-    </template>
     <template #prepend>
       <slot name="prepend" />
     </template>
