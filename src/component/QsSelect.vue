@@ -169,8 +169,8 @@ export default {
       if (this.isLazy) this.setOptions(await this.getOptions())
       else if (this.options.length > 0) this.resetOptions()
     },
-    async getOptions (filter) {
-      const params = { filter, ...this.url.filters }
+    async getOptions () {
+      const params = { [this.url.filterParam || 'filter']: this.needle, ...this.url.filters }
       const { data } = await this.url.instance(this.url.route, { params })
       return this.parseOptions(data)
     },

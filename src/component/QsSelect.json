@@ -31,10 +31,11 @@
     },
     "url": {
       "type": "Object",
-      "desc": "It is an object that contains three parameters. Route (the url that will be requested), instance (the axios instance to be used to make the request) and filters (optional, filters passed to the route)",
+      "desc": "It is an object that contains up to four parameters. Route (REQUIRED, the url that will be requested), instance (REQUIRED, the axios instance to be used to make the request), filterParam (optional, custom name for the request field) and filters (optional, filters passed to the route)",
       "examples": [
         ":options=\"{ route: 'products', instance: $axios.get }\"",
-        ":options=\"{ route: 'products', instance: $axios.get, filters: { brand_id: 5 } }\""
+        ":options=\"{ route: 'products', instance: $axios.get, filters: { brand_id: 5 } }\"",
+        ":options=\"{ route: 'products', instance: $axios.get, filterParam: 'search', filters: { brand_id: 5 } }\""
       ],
       "category": "options"
     },
