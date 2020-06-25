@@ -151,7 +151,6 @@ export default {
         noReverse: false,
         noOnly: false,
         noClear: false,
-        request: this.$axios.get,
         color: 'blue'
       },
       style: 'filled',
@@ -184,7 +183,7 @@ export default {
     },
     options () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json' } }
+        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', instance: this.$axios.get } }
         return { options: key.includes('array') ? this.array : this.objects }
       }
     },

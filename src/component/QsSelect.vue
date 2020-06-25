@@ -134,7 +134,7 @@ export default {
       return this.opts.filter(({ value }) => this.value.includes(value)).map(({ label }) => label).join(', ')
     },
 
-    isLazy () { return this.url.route && this.url.instance },
+    isLazy () { return this.url && this.url.route && this.url.instance },
     highlight () {
       return label => {
         const regex = new RegExp(`(${this.needle})`, 'ig')
