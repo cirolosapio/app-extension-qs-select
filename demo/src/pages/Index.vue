@@ -44,6 +44,14 @@
               <q-checkbox :color="config.color" v-model="config.noOnly" />
             </q-item-section>
           </q-item>
+          <q-item dense>
+            <q-item-section>
+              <q-item-label>Custom request search field</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-input dense input-class="text-right" :color="config.color" v-model="filterParam" />
+            </q-item-section>
+          </q-item>
         </div>
         <q-separator vertical spaced />
         <div class="col">
@@ -153,6 +161,7 @@ export default {
         noClear: false,
         color: 'blue'
       },
+      filterParam: 'filter',
       style: 'filled',
 
       locale: this.$q.lang.isoName,
@@ -183,7 +192,7 @@ export default {
     },
     options () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', instance: this.$axios.get } }
+        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', filterParam: this.filterParam, instance: this.$axios.get } }
         return { options: key.includes('array') ? this.array : this.objects }
       }
     },
