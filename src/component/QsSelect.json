@@ -64,6 +64,11 @@
       "desc": "Does not wrap selection in the display value (only when multiple)",
       "category": "options"
     },
+    "noClientSearch": {
+      "type": "Boolean",
+      "desc": "Disable filter options on the client",
+      "category": "options"
+    },
     "option-value": {
       "type": "String",
       "desc": "Property of option which holds the 'value'",
@@ -391,6 +396,9 @@
     },
     "selectAll": {
       "desc": "Select all the options; Available only when multiple."
+    },
+    "fetchOptions": {
+      "desc": "Fetch and update the options"
     },
     "only": {
       "desc": "Select only one option; Available only when multiple.",

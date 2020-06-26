@@ -2,9 +2,13 @@
   <q-select v-bind="selectProps" v-on="selectEvents">
 
     <template v-if="!noDenseCounter && multiple && value && value.length > 0" #selected>
-      <span class="ellipsis" style="max-width: 190px" v-if="value.length === 1">{{ displayValue }}</span>
+      <span class="ellipsis" style="max-width: 190px" v-if="value.length === 1">
+        {{ displayValueMultiple }}
+      </span>
       <template v-else>{{ $q.lang.table.selectedRecords(value.length) }}</template>
-      <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }" v-if="value.length > 1">{{ displayValue }}</q-tooltip>
+      <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }" v-if="value.length > 1">
+        {{ displayValueMultiple }}
+      </q-tooltip>
     </template>
 
     <template #append>
@@ -49,6 +53,7 @@
     <template #prepend>
       <slot name="prepend" />
     </template>
+
   </q-select>
 </template>
 
@@ -85,15 +90,16 @@ export default {
         return route && instance
       }
     },
-    optionValue: String,
-    optionLabel: String,
-    optionDisable: String,
     multiple: Boolean,
     noClear: Boolean,
+    noClientSearch: Boolean,
     noDenseCounter: Boolean,
     noOnly: Boolean,
     noReverse: Boolean,
-    noSelectAll: Boolean
+    noSelectAll: Boolean,
+    optionDisable: String,
+    optionLabel: String,
+    optionValue: String
   },
 
   data () {
@@ -105,7 +111,9 @@ export default {
     }
   },
 
-  created () { this.resetOptions() },
+  async created () {
+    this.value && await this.fetchOptions()
+  },
 
   computed: {
     selectProps () {
@@ -132,9 +140,12 @@ export default {
         'popup-hide': () => { this.focused = false }
       }
     },
-    displayValue () {
-      if (!this.value || !this.multiple || this.value.length === 0) return null
-      return this.opts.filter(({ value }) => this.value.includes(value)).map(({ label }) => label).join(', ')
+    displayValueMultiple () {
+      if (!this.multiple || !this.value || this.value.length === 0) return null
+      return this.opts
+        .filter(({ value }) => this.value.includes(value))
+        .map(({ label }) => label)
+        .join(', ')
     },
 
     isLazy () { return this.url && this.url.route && this.url.instance },
@@ -165,9 +176,10 @@ export default {
   methods: {
     setOptions (options) { this.$set(this, 'opts', options) },
     resetOptions () { this.setOptions(this.parseOptions(this.options)) },
+    async fetchOptions () { this.isLazy && this.setOptions(await this.getOptions()) },
     async prepareOptions () {
-      if (this.isLazy) this.setOptions(await this.getOptions())
-      else if (this.options.length > 0) this.resetOptions()
+      if (this.options.length > 0) this.resetOptions()
+      else await this.fetchOptions()
     },
     async getOptions () {
       const params = { [this.url.filterParam || 'filter']: this.needle, ...this.url.filters }
@@ -185,14 +197,16 @@ export default {
         }))
     },
     invertSelection () {
-      const values = this.opts.map(({ value }) => value).filter(val => !this.value.includes(val))
+      const values = this.opts
+        .map(({ value }) => value)
+        .filter(val => !this.value.includes(val))
       this.$emit('input', values)
     },
     selectAll () {
       const values = this.opts.map(({ value }) => value)
       this.$emit('input', values)
     },
-    only (value) { this.$emit('input', [value]) },
+    only (value) { this.multiple && this.$emit('input', [value]) },
     ok (newVal) {
       this.$emit('input', newVal)
       if (this.haveToEmit && newVal) {
@@ -200,14 +214,19 @@ export default {
         if (item) this.$emit('item', item)
       }
     },
-    searchFn (item, filter) {
-      return item.label.toLowerCase().indexOf(filter.toLowerCase()) > -1
+    searchFn (filter) {
+      return ({ label }) => label
+        .toLowerCase()
+        .indexOf(filter.toLowerCase()) > -1
     },
     async search (filter, doneFn) {
       await this.prepareOptions()
 
       doneFn(() => {
-        this.setOptions(this.opts.filter(item => this.searchFn(item, filter)))
+        const results = this.noClientSearch
+          ? this.opts
+          : this.opts.filter(this.searchFn(filter))
+        this.setOptions(results)
       })
     }
   }
