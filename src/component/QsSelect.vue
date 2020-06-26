@@ -13,7 +13,7 @@
 
     <template #append>
       <slot name="append" />
-      <transition-group appear :name="transition" v-if="multiple && focused">
+      <transition-group appear :name="transition" v-if="multiple && opened">
         <q-icon name="mdi-check-box-multiple-outline" class="cursor-pointer" v-if="!noSelectAll && opts.length !== (value || []).length" key="select-all" @click.prevent.stop="selectAll" />
         <q-icon name="mdi-swap-vertical" class="cursor-pointer" v-if="!noReverse" key="invert-selection" @click.prevent.stop="invertSelection" />
       </transition-group>
@@ -104,7 +104,8 @@ export default {
 
   data () {
     return {
-      focused: false,
+      loading: false,
+      opened: false,
       hovering: false,
       opts: [],
       needle: ''
@@ -127,6 +128,7 @@ export default {
         optionsSanitize: true,
         value: this.value,
         options: this.opts,
+        loading: this.loading,
         multiple: this.multiple,
         inputDebounce: 300
       }
@@ -136,8 +138,8 @@ export default {
         input: this.ok,
         filter: this.search,
         'input-value': filter => { this.needle = filter },
-        'popup-show': () => { this.focused = true },
-        'popup-hide': () => { this.focused = false }
+        'popup-show': () => { this.opened = true },
+        'popup-hide': () => { this.opened = false }
       }
     },
     displayValueMultiple () {
@@ -176,7 +178,11 @@ export default {
   methods: {
     setOptions (options) { this.$set(this, 'opts', options) },
     resetOptions () { this.setOptions(this.parseOptions(this.options)) },
-    async fetchOptions () { this.isLazy && this.setOptions(await this.getOptions()) },
+    async fetchOptions () {
+      this.loading = true
+      this.isLazy && this.setOptions(await this.getOptions())
+      this.loading = false
+    },
     async prepareOptions () {
       if (this.options.length > 0) this.resetOptions()
       else await this.fetchOptions()
