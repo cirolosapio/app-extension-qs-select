@@ -86,9 +86,11 @@ export default {
     },
     url: {
       type: Object,
-      validator ({ route, instance }) {
-        return route && instance
-      }
+      validator: ({ route, instance }) => route && instance
+    },
+    minLength: {
+      type: [String, Number],
+      validator: length => length > 1
     },
     multiple: Boolean,
     noClear: Boolean,
@@ -225,15 +227,18 @@ export default {
         .toLowerCase()
         .indexOf(filter.toLowerCase()) > -1
     },
-    async search (filter, doneFn) {
-      await this.prepareOptions()
+    async search (filter, doneFn, abortFn) {
+      if (this.minLength && filter.length < this.minLength) abortFn()
+      else {
+        await this.prepareOptions()
 
-      doneFn(() => {
-        const results = this.noClientSearch
-          ? this.opts
-          : this.opts.filter(this.searchFn(filter))
-        this.setOptions(results)
-      })
+        doneFn(() => {
+          const results = this.noClientSearch
+            ? this.opts
+            : this.opts.filter(this.searchFn(filter))
+          this.setOptions(results)
+        })
+      }
     }
   }
 }
