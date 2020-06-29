@@ -61,13 +61,24 @@
     },
     "noDenseCounter": {
       "type": "Boolean",
-      "desc": "Does not wrap selection in the display value (only when multiple)",
+      "desc": "Does not wrap selection in the display value; Available only when multiple.",
       "category": "options"
     },
     "noClientSearch": {
       "type": "Boolean",
       "desc": "Disable filter options on the client",
       "category": "options"
+    },
+    "min-length": {
+      "type": [
+        "Number",
+        "String"
+      ],
+      "desc": "Minimum number of characters to start the search; Available only when lazy.",
+      "examples": [
+        ":min-length=\"3\""
+      ],
+      "category": "search"
     },
     "option-value": {
       "type": "String",
@@ -404,7 +415,10 @@
       "desc": "Select only one option; Available only when multiple.",
       "params": {
         "value": {
-          "type": "Number|String",
+          "type": [
+            "Number",
+            "String"
+          ],
           "desc": "Value to select",
           "required": true,
           "examples": [
