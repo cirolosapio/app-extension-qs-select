@@ -431,7 +431,7 @@
       "desc": "Select all the options; Available only when multiple."
     },
     "fetchOptions": {
-      "desc": "Fetch and update the options"
+      "desc": "Fetch the options; Available only when lazy."
     },
     "only": {
       "desc": "Select only one option; Available only when multiple.",

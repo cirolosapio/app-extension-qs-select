@@ -126,6 +126,10 @@ export default {
     }
   },
 
+  async created () {
+    this.value && this.isLazy && this.setOptions(await this.fetchOptions({ id: this.value }))
+  },
+
   computed: {
     selectProps () {
       return {
@@ -190,18 +194,19 @@ export default {
       this.opts = parse ? this.parseOptions(options) : options
     },
     resetOptions () { this.setOptions(this.options) },
-    async fetchOptions () {
-      this.loading = true
-      this.isLazy && this.setOptions(await this.getOptions())
-      this.loading = false
-    },
     async prepareOptions () {
       if (this.options.length > 0) this.resetOptions()
-      else await this.fetchOptions()
+      else if (this.isLazy) this.setOptions(await this.fetchOptions())
     },
-    async getOptions () {
-      const params = { [this.url.filterParam || 'filter']: this.needle, ...this.url.filters }
+    async fetchOptions (other = {}) {
+      this.loading = true
+      const params = {
+        [this.url.filterParam || 'filter']: this.needle,
+        ...this.url.filters,
+        ...other
+      }
       const { data } = await this.url.instance(this.url.route, { params })
+      this.loading = false
       return data
     },
     parseOptions (options) {
