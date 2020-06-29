@@ -106,7 +106,6 @@ export default {
     },
     multiple: Boolean,
     noClear: Boolean,
-    noClientSearch: Boolean,
     noDenseCounter: Boolean,
     noOnly: Boolean,
     noReverse: Boolean,
@@ -126,9 +125,7 @@ export default {
     }
   },
 
-  async created () {
-    this.value && this.isLazy && this.setOptions(await this.fetchOptions({ id: this.value }))
-  },
+  async created () { await this.checkDisplayValue() },
 
   computed: {
     selectProps () {
@@ -190,6 +187,9 @@ export default {
   },
 
   methods: {
+    async checkDisplayValue () {
+      this.value && this.isLazy && this.setOptions(await this.fetchOptions('/' + this.value))
+    },
     setOptions (options, parse = true) {
       this.opts = parse ? this.parseOptions(options) : options
     },
@@ -198,16 +198,15 @@ export default {
       if (this.options.length > 0) this.resetOptions()
       else if (this.isLazy) this.setOptions(await this.fetchOptions())
     },
-    async fetchOptions (other = {}) {
+    async fetchOptions (path = '') {
       this.loading = true
       const params = {
         [this.url.filterParam || 'filter']: this.needle,
-        ...this.url.filters,
-        ...other
+        ...this.url.filters
       }
-      const { data } = await this.url.instance(this.url.route, { params })
+      const { data } = await this.url.instance(this.url.route + path, { params })
       this.loading = false
-      return data
+      return Array.isArray(data) ? data : [data]
     },
     parseOptions (options) {
       return typeof options[0] === 'string'
@@ -248,7 +247,7 @@ export default {
         await this.prepareOptions()
 
         doneFn(() => {
-          const results = this.noClientSearch
+          const results = !this.isLazy
             ? this.opts
             : this.opts.filter(this.searchFn(filter))
           this.setOptions(results, false)

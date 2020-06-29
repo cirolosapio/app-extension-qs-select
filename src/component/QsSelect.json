@@ -64,11 +64,6 @@
       "desc": "Does not wrap selection in the display value; Available only when multiple.",
       "category": "options"
     },
-    "noClientSearch": {
-      "type": "Boolean",
-      "desc": "Disable filter options on the client",
-      "category": "options"
-    },
     "min-length": {
       "type": [
         "Number",
@@ -431,7 +426,13 @@
       "desc": "Select all the options; Available only when multiple."
     },
     "fetchOptions": {
-      "desc": "Fetch the options; Available only when lazy."
+      "desc": "Fetch the options; Available only when lazy.",
+      "params": {
+        "path": {
+          "type": "String",
+          "desc": "Optional path that extends the route"
+        }
+      }
     },
     "only": {
       "desc": "Select only one option; Available only when multiple.",
