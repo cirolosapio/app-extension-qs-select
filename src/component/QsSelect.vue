@@ -59,6 +59,12 @@
     <template v-if="$slots.loading" #loading>
       <slot name="loading" />
     </template>
+    <template v-if="$slots['before-options']" #before-options>
+      <slot name="before-options" />
+    </template>
+    <template v-if="$slots['after-options']" #after-options>
+      <slot name="after-options" />
+    </template>
 
   </q-select>
 </template>
