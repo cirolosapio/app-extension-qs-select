@@ -410,6 +410,20 @@
     }
   },
   "methods": {
+    "setOptions": {
+      "desc": "Override the options.",
+      "params": {
+        "options": {
+          "type": "Array",
+          "desc": "List of options to be set",
+          "required": true
+        },
+        "parse": {
+          "type": "Boolean",
+          "desc": "Indicates that options must be parsed"
+        }
+      }
+    },
     "invertSelection": {
       "desc": "Invert the current selection; Available only when multiple."
     },

@@ -126,10 +126,6 @@ export default {
     }
   },
 
-  async created () {
-    this.value && await this.fetchOptions()
-  },
-
   computed: {
     selectProps () {
       return {
@@ -190,8 +186,10 @@ export default {
   },
 
   methods: {
-    setOptions (options) { this.$set(this, 'opts', options) },
-    resetOptions () { this.setOptions(this.parseOptions(this.options)) },
+    setOptions (options, parse = true) {
+      this.opts = parse ? this.parseOptions(options) : options
+    },
+    resetOptions () { this.setOptions(this.options) },
     async fetchOptions () {
       this.loading = true
       this.isLazy && this.setOptions(await this.getOptions())
@@ -204,7 +202,7 @@ export default {
     async getOptions () {
       const params = { [this.url.filterParam || 'filter']: this.needle, ...this.url.filters }
       const { data } = await this.url.instance(this.url.route, { params })
-      return this.parseOptions(data)
+      return data
     },
     parseOptions (options) {
       return typeof options[0] === 'string'
@@ -240,7 +238,7 @@ export default {
         .indexOf(filter.toLowerCase()) > -1
     },
     async search (filter, doneFn, abortFn) {
-      if (this.minLength && filter.length < this.minLength) abortFn()
+      if (this.isLazy && this.minLength && filter.length < this.minLength) abortFn()
       else {
         await this.prepareOptions()
 
@@ -248,7 +246,7 @@ export default {
           const results = this.noClientSearch
             ? this.opts
             : this.opts.filter(this.searchFn(filter))
-          this.setOptions(results)
+          this.setOptions(results, false)
         })
       }
     }
