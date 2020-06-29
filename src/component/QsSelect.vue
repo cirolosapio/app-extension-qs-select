@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import TransitionMixin from '../mixins/transition'
+import TransitionMixin from 'quasar/src/mixins/transition.js'
 export default {
   name: 'QsSelect',
   mixins: [TransitionMixin],
