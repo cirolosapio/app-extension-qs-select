@@ -40,18 +40,24 @@
       </slot>
     </template>
 
-    <slot name="default" />
-    <template #after>
+    <slot name="default" v-if="$slots.default" />
+    <template v-if="$slots.before" #before>
+      <slot name="before" />
+    </template>
+    <template v-if="$slots.after" #after>
       <slot name="after" />
     </template>
-    <template #error>
+    <template v-if="$slots.error" #error>
       <slot name="error" />
     </template>
-    <template #hint>
+    <template v-if="$slots.hint" #hint>
       <slot name="hint" />
     </template>
-    <template #prepend>
+    <template v-if="$slots.prepend" #prepend>
       <slot name="prepend" />
+    </template>
+    <template v-if="$slots.loading" #loading>
+      <slot name="loading" />
     </template>
 
   </q-select>
