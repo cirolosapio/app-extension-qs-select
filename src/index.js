@@ -10,7 +10,7 @@ const { green } = require('chalk')
 const extendConf = function (conf) {
   // make sure qfilterconfigurator boot file is registered
   conf.boot.push('~quasar-app-extension-qs-select/src/boot/qs-select.js')
-  console.log(green(' App ·') + ' Extension (qs-select: Adding qs-select boot reference to your quasar.conf.js')
+  console.log(green(' App ·') + ' Extension(qs-select): Adding qs-select boot reference to your quasar.conf.js')
 
   // make sure boot & component files transpile
   // conf.build.transpileDependencies.push(/quasar-app-extension-q-filter-configurator[\\/]src/)
