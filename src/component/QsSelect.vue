@@ -189,7 +189,10 @@ export default {
 
   methods: {
     async checkDisplayValue () {
-      this.value && this.isLazy && this.setOptions(await this.fetchOptions('/' + this.value))
+      if (this.value) {
+        if (this.isLazy) this.setOptions(await this.fetchOptions('/' + this.value))
+        else this.resetOptions()
+      }
     },
     setOptions (options, parse = true) {
       this.opts = parse ? this.parseOptions(options) : options
