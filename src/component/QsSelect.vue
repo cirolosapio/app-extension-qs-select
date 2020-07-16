@@ -106,6 +106,7 @@ export default {
     },
     multiple: Boolean,
     noClear: Boolean,
+    noClientSearch: Boolean,
     noDenseCounter: Boolean,
     noOnly: Boolean,
     noReverse: Boolean,
@@ -247,7 +248,7 @@ export default {
         await this.prepareOptions()
 
         doneFn(() => {
-          const results = !this.isLazy
+          const results = this.noClientSearch
             ? this.opts
             : this.opts.filter(this.searchFn(filter))
           this.setOptions(results, false)

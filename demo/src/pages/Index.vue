@@ -44,6 +44,14 @@
               <q-checkbox :color="config.color" v-model="config.noOnly" />
             </q-item-section>
           </q-item>
+          <q-item tag="label" dense>
+            <q-item-section>
+              <q-item-label>No client search</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-checkbox :color="config.color" v-model="config.noClientSearch" />
+            </q-item-section>
+          </q-item>
           <q-item dense>
             <q-item-section>
               <q-item-label>Custom request search field</q-item-label>
@@ -104,6 +112,14 @@
               <q-radio val="standout" :color="config.color" v-model="style" />
             </q-item-section>
           </q-item>
+          <q-item tag="label" dense>
+            <q-item-section>
+              <q-item-label>Outlined</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-radio val="outlined" :color="config.color" v-model="style" />
+            </q-item-section>
+          </q-item>
         </div>
       </div>
     </q-expansion-item>
@@ -156,6 +172,7 @@ export default {
         dense: true,
         noDenseCounter: false,
         noSelectAll: false,
+        noClientSearch: false,
         noReverse: false,
         noOnly: false,
         noClear: false,
