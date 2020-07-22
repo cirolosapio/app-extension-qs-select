@@ -84,9 +84,9 @@ export default {
       type: Array,
       default: () => []
     },
-    highlightColor: {
+    highlightClass: {
       type: String,
-      default: () => 'teal'
+      default: () => 'text-teal'
     },
     transitionShow: {
       type: String,
@@ -166,7 +166,7 @@ export default {
     highlight () {
       return label => {
         const regex = new RegExp(`(${this.needle})`, 'ig')
-        const replace = `<span class="bg-${this.highlightColor} text-white">$1</span>`
+        const replace = `<span class="${this.highlightClass}">$1</span>`
         return label.replace(regex, replace)
       }
     },

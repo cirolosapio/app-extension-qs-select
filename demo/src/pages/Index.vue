@@ -74,10 +74,10 @@
           </q-item>
           <q-item dense>
             <q-item-section>
-              <q-item-label>Hightlight Color</q-item-label>
+              <q-item-label>Hightlight Class</q-item-label>
             </q-item-section>
             <q-item-section>
-              <q-select :options="colors" :color="config.color" filled dense options-dense v-model="config.highlightColor" />
+              <q-input dense filled :color="config.color" v-model="config.highlightClass" />
             </q-item-section>
           </q-item>
           <q-item tag="label" dense>

@@ -151,6 +151,15 @@
       ],
       "category": "style"
     },
+    "hightlight-class": {
+      "type": "String",
+      "desc": "Class to apply to emphasized search",
+      "examples": [
+        "text-teal",
+        "bg-accent"
+      ],
+      "category": "style"
+    },
     "dense": {
       "type": "Boolean",
       "desc": "Dense mode; occupies less space",
