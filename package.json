@@ -30,11 +30,11 @@
     "yarn": ">= 1.21.1"
   },
   "dependencies": {
-    "axios": "0.19.2"
+    "axios": "0.20.0-0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.0",
