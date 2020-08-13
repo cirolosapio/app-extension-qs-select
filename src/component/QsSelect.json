@@ -19,6 +19,11 @@
       "desc": "Allow multiple selection; Model must be Array",
       "category": "model|selection"
     },
+    "freeze": {
+      "type": "Boolean",
+      "desc": "Freezes options for better performance",
+      "category": "options"
+    },
     "options": {
       "type": "Array",
       "desc": "Available options that the user can select from. For best performance freeze the list of options.",

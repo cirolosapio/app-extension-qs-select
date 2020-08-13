@@ -126,9 +126,32 @@
 
     <q-list dense padding bordered class="rounded-borders q-mb-md">
       <q-item-label header>Examples</q-item-label>
-      <q-item v-for="(val, key) of model" :key="key">
+      <q-item v-for="(val, key) of examples" :key="key">
         <q-item-section>
           <qs-select v-bind="{ ...props(key) , ...options(key) }" v-model="model[key]" @item="notify">
+            <template #default>
+              <q-tooltip anchor="center left" self="center right" transition-show="jump-left" transition-hide="jump-right">
+                <q-markdown>
+```js
+{{ props(key) }}
+```
+                </q-markdown>
+              </q-tooltip>
+            </template>
+          </qs-select>
+        </q-item-section>
+        <q-item-section>
+          <q-badge multi-line :outline="$q.dark.isActive" :color="config.color">{{ model[key] }}</q-badge>
+        </q-item-section>
+      </q-item>
+
+      <q-item-label header class="q-mt-md">
+        Freeze Prop
+        <small class="text-grey q-ml-xs">for render performance</small>
+      </q-item-label>
+      <q-item v-for="(val, key) in freezeExamples" :key="key">
+        <q-item-section>
+          <qs-select freeze v-bind="{ ...props(key) , ...freezeOptions(key) }" v-model="model[key]">
             <template #default>
               <q-tooltip anchor="center left" self="center right" transition-show="jump-left" transition-hide="jump-right">
                 <q-markdown>
@@ -163,11 +186,24 @@ export default {
         lazy_single_array: null,
         lazy_single_objects: null,
         lazy_multiple_array: null,
-        lazy_multiple_objects: null
+        lazy_multiple_objects: null,
+
+        single_large_array: null,
+        single_large_objects: null,
+        multiple_large_array: null,
+        multiple_large_objects: null,
+
+        lazy_single_large_array: null,
+        lazy_single_large_objects: null,
+        lazy_multiple_large_array: null,
+        lazy_multiple_large_objects: null
       },
 
       array: [],
       objects: [],
+      large_array: [],
+      large_objects: [],
+      large: [],
       config: {
         dense: true,
         noDenseCounter: false,
@@ -194,9 +230,17 @@ export default {
 
     this.array = (await this.$axios.get('array.json')).data
     this.objects = (await this.$axios.get('objects.json')).data
+    this.large_array = (await this.$axios.get('large_array.json')).data
+    this.large_objects = (await this.$axios.get('large_objects.json')).data
   },
 
   computed: {
+    examples () {
+      return Object.fromEntries(Object.entries(this.model).filter(([key]) => !key.includes('large')))
+    },
+    freezeExamples () {
+      return Object.fromEntries(Object.entries(this.model).filter(([key]) => key.includes('large')))
+    },
     props () {
       return key => {
         return {
@@ -211,6 +255,12 @@ export default {
       return key => {
         if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', filterParam: this.filterParam, instance: this.$axios.get } }
         return { options: key.includes('array') ? this.array : this.objects }
+      }
+    },
+    freezeOptions () {
+      return key => {
+        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'large_array.json' : 'large_objects.json', filterParam: this.filterParam, instance: this.$axios.get } }
+        return { options: key.includes('array') ? this.large_array : this.large_objects }
       }
     },
     expansionProps () {

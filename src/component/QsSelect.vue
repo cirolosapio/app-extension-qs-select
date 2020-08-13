@@ -1,14 +1,21 @@
 <template>
   <q-select v-bind="selectProps" v-on="selectEvents">
 
-    <template v-if="!noDenseCounter && multiple && value && value.length > 0" #selected>
-      <span class="ellipsis" style="max-width: 190px" v-if="value.length === 1">
-        {{ displayValueMultiple }}
-      </span>
-      <template v-else>{{ $q.lang.table.selectedRecords(value.length) }}</template>
-      <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }" v-if="value.length > 1">
-        {{ displayValueMultiple }}
-      </q-tooltip>
+    <template v-if="value && ((multiple && value.length > 0) || freeze)" #selected>
+      <template v-if="multiple">
+        <span class="ellipsis" style="max-width: 190px" v-if="(value.length === 1 || noDenseCounter)">
+          {{ displayValueMultiple }}
+        </span>
+        <template v-else>
+          {{ $q.lang.table.selectedRecords(value.length) }}
+          <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }">
+            {{ displayValueMultiple }}
+          </q-tooltip>
+        </template>
+      </template>
+      <template v-else-if="freeze">
+        {{ getLabel(value) }}
+      </template>
     </template>
 
     <template #append>
@@ -104,6 +111,7 @@ export default {
       type: [String, Number],
       validator: length => length > 1
     },
+    freeze: Boolean,
     multiple: Boolean,
     noClear: Boolean,
     noClientSearch: Boolean,
@@ -135,7 +143,7 @@ export default {
         clearable: !this.noClear,
         useInput: true,
         emitValue: true,
-        mapOptions: true,
+        mapOptions: !this.freeze,
         optionsDense: true,
         optionsSanitize: true,
         value: this.value,
@@ -161,6 +169,11 @@ export default {
         .map(({ label }) => label)
         .join(', ')
     },
+    getLabel () {
+      return opt => this.opts
+        .find(({ value }) => value === opt)
+        .label
+    },
 
     isLazy () { return this.url && this.url.route && this.url.instance },
     highlight () {
@@ -172,6 +185,7 @@ export default {
     },
     haveToEmit () {
       return !this.multiple &&
+        Object.keys(this.$listeners).includes('item') &&
         (this.isLazy || typeof this.options[0] !== 'string')
     },
     hoverEvents () {
@@ -195,6 +209,7 @@ export default {
       }
     },
     setOptions (options, parse = true) {
+      this.freeze && Object.freeze(options)
       this.opts = parse ? this.parseOptions(options) : options
     },
     resetOptions () { this.setOptions(this.options) },
