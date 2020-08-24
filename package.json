@@ -1,6 +1,6 @@
 {
   "name": "quasar-app-extension-qs-select",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "QsSelect - Quasar App Extension",
   "author": "heartbeatLV <lscorionjs@gmail.com>",
   "license": "MIT",
@@ -28,9 +28,6 @@
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  },
-  "dependencies": {
-    "axios": "0.20.0-0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
