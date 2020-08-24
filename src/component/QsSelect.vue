@@ -1,7 +1,7 @@
 <template>
   <q-select v-bind="selectProps" v-on="selectEvents">
 
-    <template v-if="value && ((multiple && value.length > 0) || freeze)" #selected>
+    <template v-if="value && ((multiple && value.length > 0) || opts.findIndex(opt => opt.value === value) !== -1)" #selected>
       <template v-if="multiple">
         <span class="ellipsis" style="max-width: 190px" v-if="(value.length === 1 || noDenseCounter)">
           {{ displayValueMultiple }}
@@ -13,7 +13,7 @@
           </q-tooltip>
         </template>
       </template>
-      <template v-else-if="freeze">
+      <template v-else>
         {{ getLabel(value) }}
       </template>
     </template>
