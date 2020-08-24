@@ -5,7 +5,7 @@
  * API: https://github.com/quasarframework/quasar/blob/master/app/lib/app-extension/IndexAPI.js
  */
 
-const { green } = require('chalk')
+const { green, red } = require('chalk')
 
 const extendConf = function (conf) {
   // make sure qfilterconfigurator boot file is registered
@@ -17,6 +17,9 @@ const extendConf = function (conf) {
 }
 
 module.exports = function (api) {
+  if (!api.hasPackage('axios')) {
+    console.log(red(' App ·') + ' Extension(qs-select): in order to use this extension you need to install axios')
+  }
   // register JSON api
   api.registerDescribeApi('QsSelect', './component/QsSelect.json')
 
