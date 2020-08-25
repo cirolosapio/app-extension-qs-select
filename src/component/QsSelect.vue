@@ -140,6 +140,7 @@ export default {
     selectProps () {
       return {
         ...this.$attrs,
+        ref: 'select',
         clearable: !this.noClear,
         useInput: true,
         emitValue: true,
