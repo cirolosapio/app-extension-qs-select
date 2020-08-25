@@ -419,6 +419,12 @@
     }
   },
   "methods": {
+    "showPopup": {
+      "desc": "Focus and open popup"
+    },
+    "hidePopup": {
+      "desc": "Hide popup"
+    },
     "setOptions": {
       "desc": "Override the options.",
       "params": {

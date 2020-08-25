@@ -202,6 +202,8 @@ export default {
   },
 
   methods: {
+    showPopup () { this.$refs.select.showPopup() },
+    hidePopup () { this.$refs.select.hidePopup() },
     async checkDisplayValue () {
       if (this.value) {
         if (this.isLazy) this.setOptions(await this.fetchOptions('/' + this.value))
