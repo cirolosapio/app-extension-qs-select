@@ -134,7 +134,12 @@ export default {
     }
   },
 
-  async created () { await this.checkDisplayValue() },
+  async created () {
+    if (this.value) {
+      await this.checkDisplayValue()
+      this.emitItem(this.value)
+    }
+  },
 
   computed: {
     selectProps () {
@@ -176,7 +181,7 @@ export default {
         .label
     },
 
-    isLazy () { return this.url && this.url.route && this.url.instance },
+    isLazy () { return Boolean(this.url && this.url.route && this.url.instance) },
     highlight () {
       return label => {
         const regex = new RegExp(`(${this.needle})`, 'ig')
@@ -206,10 +211,8 @@ export default {
     showPopup () { this.$refs.select.showPopup() },
     hidePopup () { this.$refs.select.hidePopup() },
     async checkDisplayValue () {
-      if (this.value) {
-        if (this.isLazy) this.setOptions(await this.fetchOptions('/' + this.value))
-        else this.resetOptions()
-      }
+      if (this.isLazy) this.setOptions(await this.fetchOptions('/' + this.value))
+      else this.resetOptions()
     },
     setOptions (options, parse = true) {
       this.freeze && Object.freeze(options)
@@ -253,10 +256,11 @@ export default {
     only (value) { this.multiple && this.$emit('input', [value]) },
     ok (newVal) {
       this.$emit('input', newVal)
-      if (this.haveToEmit && newVal) {
-        const { item } = this.opts.find(({ value }) => value === newVal)
-        if (item) this.$emit('item', item)
-      }
+      this.haveToEmit && newVal && this.emitItem(newVal)
+    },
+    emitItem (newVal) {
+      const { item } = this.opts.find(({ value }) => value === newVal)
+      if (item) this.$emit('item', item)
     },
     searchFn (filter) {
       return ({ label }) => label
