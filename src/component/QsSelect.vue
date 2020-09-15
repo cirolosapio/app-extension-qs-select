@@ -137,7 +137,7 @@ export default {
   async created () {
     if (this.value) {
       await this.checkDisplayValue()
-      this.emitItem(this.value)
+      this.haveToEmit && this.emitItem(this.value)
     }
   },
 
