@@ -105,7 +105,7 @@ export default {
     },
     url: {
       type: Object,
-      validator: ({ route, instance }) => route && instance
+      validator: ({ route }) => Boolean(route)
     },
     minLength: {
       type: [String, Number],
@@ -182,7 +182,7 @@ export default {
         .label
     },
 
-    isLazy () { return Boolean(this.url && this.url.route && this.url.instance) },
+    isLazy () { return Boolean(this.url && this.url.route) },
     highlight () {
       return label => {
         const regex = new RegExp(`(${this.needle})`, 'ig')
@@ -226,11 +226,12 @@ export default {
     },
     async fetchOptions (path = '') {
       this.loading = true
+      const url = this.url.route + path + '?'
       const params = {
         [this.url.filterParam || 'filter']: this.needle,
         ...this.url.filters
       }
-      const { data } = await this.url.instance(this.url.route + path, { params })
+      const data = await (await fetch(url + params)).json()
       this.loading = false
       return Array.isArray(data) ? data : [data]
     },
