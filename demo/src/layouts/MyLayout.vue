@@ -5,7 +5,7 @@
         <q-btn flat dense round aria-label="Menu" icon="mdi-menu" @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>
-          QsSelect
+          Quasar Searchable Select
         </q-toolbar-title>
 
         <q-btn flat round :icon="$q.dark.isActive ? 'mdi-brightness-2' : 'mdi-brightness-5'" @click="$q.dark.set(!$q.dark.isActive)" />

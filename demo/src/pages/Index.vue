@@ -228,10 +228,10 @@ export default {
       label: lang.nativeName, value: lang.isoName
     }))
 
-    this.array = (await this.$axios.get('array.json')).data
-    this.objects = (await this.$axios.get('objects.json')).data
-    this.large_array = (await this.$axios.get('large_array.json')).data
-    this.large_objects = (await this.$axios.get('large_objects.json')).data
+    this.array = await (await fetch('array.json')).json()
+    this.objects = await (await fetch('objects.json')).json()
+    this.large_array = await (await fetch('large_array.json')).json()
+    this.large_objects = await (await fetch('large_objects.json')).json()
   },
 
   computed: {
@@ -253,13 +253,13 @@ export default {
     },
     options () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', filterParam: this.filterParam, instance: this.$axios.get } }
+        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', filterParam: this.filterParam } }
         return { options: key.includes('array') ? this.array : this.objects }
       }
     },
     freezeOptions () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'large_array.json' : 'large_objects.json', filterParam: this.filterParam, instance: this.$axios.get } }
+        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'large_array.json' : 'large_objects.json', filterParam: this.filterParam } }
         return { options: key.includes('array') ? this.large_array : this.large_objects }
       }
     },
