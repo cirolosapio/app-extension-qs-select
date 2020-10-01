@@ -7,13 +7,16 @@
 
 const { green } = require('chalk')
 
-const extendConf = function (conf) {
+const extendConf = function (conf, prompts) {
   // make sure qfilterconfigurator boot file is registered
   conf.boot.push('~quasar-app-extension-qs-select/src/boot/qs-select.js')
   console.log(green(' App ·') + ' Extension(qs-select): Adding qs-select boot reference to your quasar.conf.js')
 
   // make sure boot & component files transpile
   // conf.build.transpileDependencies.push(/quasar-app-extension-qs-select[\\/]src/)
+
+  console.log(green(' App ·') + ' Extension(qs-select): Adding qs-select env parameters to your quasar.conf.js')
+  conf.build.env._QsSelect = prompts
 }
 
 module.exports = function (api) {
@@ -21,5 +24,5 @@ module.exports = function (api) {
   api.registerDescribeApi('QsSelect', './component/QsSelect.json')
 
   // extend quasar.conf
-  api.extendQuasarConf(extendConf)
+  api.extendQuasarConf(conf => extendConf(conf, api.prompts))
 }

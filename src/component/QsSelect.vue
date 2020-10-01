@@ -226,12 +226,14 @@ export default {
     },
     async fetchOptions (path = '') {
       this.loading = true
-      const url = this.url.route + path + '?'
+      const url = this.url.route + path
       const params = {
         [this.url.filterParam || 'filter']: this.needle,
         ...this.url.filters
       }
-      const data = await (await fetch(url + params)).json()
+      let data
+      if (process.env._QsSelect.api_type === 'fetch') data = await (await fetch(url + '?' + params)).json()
+      else data = await this[process.env._QsSelect.axios_key].get(url, { params })
       this.loading = false
       return Array.isArray(data) ? data : [data]
     },
