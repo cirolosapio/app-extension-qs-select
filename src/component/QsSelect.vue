@@ -233,7 +233,7 @@ export default {
       }
       let data
       if (process.env._QsSelect.api_type === 'fetch') data = await (await fetch(url + '?' + params)).json()
-      else data = await this[process.env._QsSelect.axios_key].get(url, { params })
+      else data = (await this[process.env._QsSelect.axios_key].get(url, { params })).data
       this.loading = false
       return Array.isArray(data) ? data : [data]
     },
