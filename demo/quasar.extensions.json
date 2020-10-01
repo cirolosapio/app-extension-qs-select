@@ -1,5 +1,7 @@
 {
-  "qs-select": {},
+  "qs-select": {
+    "api_type": "fetch"
+  },
   "@quasar/qmarkdown": {
     "import_md": true,
     "import_vmd": false
