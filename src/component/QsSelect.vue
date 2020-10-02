@@ -1,20 +1,20 @@
 <template>
   <q-select v-bind="selectProps" v-on="selectEvents">
 
-    <template v-if="value && ((multiple && value.length > 0) || opts.findIndex(opt => opt.value === value) !== -1)" #selected>
+    <template v-if="value && ((multiple && value.length > 0) || opts.findIndex(opt => $refs.select.getOptionValue(opt) === value) !== -1)" #selected>
       <template v-if="multiple">
         <span class="ellipsis" style="max-width: 190px" v-if="(value.length === 1 || noDenseCounter)">
-          {{ displayValueMultiple }}
+          {{ $refs.select.selectedString }}
         </span>
         <template v-else>
           {{ $q.lang.table.selectedRecords(value.length) }}
           <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }">
-            {{ displayValueMultiple }}
+            {{ $refs.select.selectedString }}
           </q-tooltip>
         </template>
       </template>
       <template v-else>
-        {{ getLabel(value) }}
+        {{ $refs.select.getOptionLabel($refs.select.__getOption(value)) }}
       </template>
     </template>
 
@@ -29,19 +29,25 @@
     <template #option="{ itemProps, itemEvents, opt, focused }">
       <q-item v-bind="itemProps" v-on="{ ...itemEvents, ...hoverEvents }">
         <q-item-section>
-          <q-item-label v-html="highlight(opt.label)" />
+          <q-item-label v-html="highlight($refs.select.getOptionLabel(opt))" />
+          <q-item-label caption>
+            <slot name="option-caption" :opt="opt" />
+          </q-item-label>
         </q-item-section>
         <q-item-section side v-if="!noOnly && multiple && focused && hovering">
-          <q-btn size="14px" padding="none sm" flat :text-color="`${$attrs.color}`" :label="$q.lang.label.select" no-caps @click.prevent.stop="only(opt.value)" />
+          <q-btn size="14px" padding="none sm" flat :text-color="`${$attrs.color}`" :label="$q.lang.label.select" no-caps @click.prevent.stop="only($refs.select.getOptionValue(opt))" />
+        </q-item-section>
+        <q-item-section side>
+          <slot name="option-side" :opt="opt" />
         </q-item-section>
       </q-item>
     </template>
 
-    <template #no-option="inputValue">
+    <template #no-option="{ inputValue }">
       <slot name="no-option" v-bind="inputValue">
         <q-item dense>
           <q-item-section class="text-grey">
-            {{ needle ? $q.lang.table.noResults : $q.lang.table.noData }}
+            {{ inputValue ? $q.lang.table.noResults : $q.lang.table.noData }}
           </q-item-section>
         </q-item>
       </slot>
@@ -84,7 +90,6 @@ export default {
   inheritAttrs: false,
   props: {
     value: {
-      // type: [Number, String, Array],
       required: true
     },
     options: {
@@ -103,14 +108,15 @@ export default {
       type: String,
       default: () => 'jump-right'
     },
-    url: {
-      type: Object,
-      validator: ({ route }) => Boolean(route)
-    },
     minLength: {
       type: [String, Number],
       validator: length => length > 1
     },
+
+    route: String,
+    filterKey: String,
+    filters: Object,
+
     freeze: Boolean,
     multiple: Boolean,
     noClear: Boolean,
@@ -118,10 +124,7 @@ export default {
     noDenseCounter: Boolean,
     noOnly: Boolean,
     noReverse: Boolean,
-    noSelectAll: Boolean,
-    optionDisable: String,
-    optionLabel: String,
-    optionValue: String
+    noSelectAll: Boolean
   },
 
   data () {
@@ -129,15 +132,14 @@ export default {
       loading: false,
       opened: false,
       hovering: false,
-      opts: [],
-      needle: ''
+      opts: []
     }
   },
 
   async created () {
     if (this.value) {
       await this.checkDisplayValue()
-      // this.haveToEmit && this.emitItem(this.value)
+      // this.haveToEmit && this.$emit('item', this.$refs.select.__getOption(this.value))
     }
   },
 
@@ -150,7 +152,7 @@ export default {
         clearable: !this.noClear,
         useInput: !attrKeys.includes('readonly') && !attrKeys.includes('disable'),
         emitValue: true,
-        mapOptions: !this.freeze,
+        mapOptions: true,
         optionsDense: true,
         optionsSanitize: true,
         value: this.value,
@@ -164,40 +166,25 @@ export default {
       return {
         input: this.ok,
         filter: this.search,
-        'input-value': filter => { this.needle = filter },
         'popup-show': () => { this.opened = true },
         'popup-hide': () => { this.opened = false }
       }
     },
-    displayValueMultiple () {
-      if (!this.multiple || !this.value || this.value.length === 0) return null
-      return this.opts
-        .filter(({ value }) => this.value.includes(value))
-        .map(({ label }) => label)
-        .join(', ')
-    },
-    getLabel () {
-      return opt => this.opts
-        .find(({ value }) => value === opt)
-        .label
-    },
 
-    isLazy () { return Boolean(this.url && this.url.route) },
     highlight () {
       return label => {
-        const regex = new RegExp(`(${this.needle})`, 'ig')
+        const regex = new RegExp(`(${this.$refs.select.inputValue})`, 'ig')
         const replace = `<span class="${this.highlightClass}">$1</span>`
         return label.replace(regex, replace)
       }
     },
     haveToEmit () {
       return !this.multiple &&
-        Object.keys(this.$listeners).includes('item') &&
-        (this.isLazy || typeof this.options[0] !== 'string')
+        this.route &&
+        Object.keys(this.$listeners).includes('item')
     },
     hoverEvents () {
-      if (this.noOnly) return {}
-      return {
+      return this.noOnly ? {} : {
         mouseenter: () => { this.hovering = true },
         mouseleave: () => { this.hovering = false }
       }
@@ -211,63 +198,54 @@ export default {
   methods: {
     showPopup () { this.$refs.select.showPopup() },
     hidePopup () { this.$refs.select.hidePopup() },
+    ok (value) {
+      this.$emit('input', value)
+      this.haveToEmit && value && this.$emit('item', this.$refs.select.__getOption(value))
+    },
+
+    // options
+    resetOptions () { this.setOptions(this.options) },
     async checkDisplayValue () {
-      if (this.isLazy) this.setOptions(await this.fetchOptions('/' + this.value))
+      if (this.route) this.setOptions(await this.fetchOptions('/' + this.value))
       else this.resetOptions()
     },
-    setOptions (options, parse = true) {
+    setOptions (options) {
       this.freeze && Object.freeze(options)
-      this.opts = parse ? this.parseOptions(options) : options
+      this.opts = options
     },
-    resetOptions () { this.setOptions(this.options) },
     async prepareOptions () {
       if (this.options.length > 0) this.resetOptions()
-      else if (this.isLazy) this.setOptions(await this.fetchOptions())
+      else if (this.route) this.setOptions(await this.fetchOptions())
     },
     async fetchOptions (path = '') {
       this.loading = true
-      const url = this.url.route + path
-      const params = {
-        [this.url.filterParam || 'filter']: this.needle,
-        ...this.url.filters
-      }
       let data
-      if (process.env._QsSelect.api_type === 'fetch') data = await (await fetch(url + '?' + params)).json()
-      else data = (await this[process.env._QsSelect.axios_key].get(url, { params })).data
+      if (process.env._QsSelect.api_type === 'fetch') data = await (await fetch(this.route)).json()
+      else {
+        const params = this.filters || {}
+        if (this.$refs.select) params[this.filterKey || 'filter'] = this.$refs.select.inputValue
+        data = (await this[process.env._QsSelect.axios_key].get(this.route + path, { params })).data
+      }
       this.loading = false
       return Array.isArray(data) ? data : [data]
     },
-    parseOptions (options) {
-      return typeof options[0] === 'string'
-        ? options.map(item => ({ label: item, value: item }))
-        : options.map(({ value, label, disable, ...item }) => ({
-          value: value || item[this.optionValue],
-          label: label || item[this.optionLabel],
-          disable: disable || item[this.optionDisable],
-          item: this.haveToEmit ? item : undefined
-        }))
-    },
+
+    // features
+    only (value) { this.multiple && this.$emit('input', [value]) },
     invertSelection () {
       const values = this.opts
-        .map(({ value }) => value)
+        .map(this.$refs.select.getOptionValue)
         .filter(val => !this.value.includes(val))
       this.$emit('input', values)
     },
     selectAll () {
-      const values = this.opts.map(({ value }) => value)
+      const values = this.opts.map(this.$refs.select.getOptionValue)
       this.$emit('input', values)
     },
-    only (value) { this.multiple && this.$emit('input', [value]) },
-    ok (newVal) {
-      this.$emit('input', newVal)
-      this.haveToEmit && newVal && this.emitItem(newVal)
-    },
-    emitItem (newVal) {
-      const { item } = this.opts.find(({ value }) => value === newVal)
-      if (item) this.$emit('item', item)
-    },
+
+    // search
     searchFn (filter) {
-      return ({ label }) => label
+      return opt => this.$refs.select.getOptionLabel(opt)
         .toLowerCase()
         .indexOf(filter.toLowerCase()) > -1
     },
@@ -280,7 +258,7 @@ export default {
           const results = this.noClientSearch
             ? this.opts
             : this.opts.filter(this.searchFn(filter))
-          this.setOptions(results, false)
+          this.setOptions(results)
         })
       }
     }

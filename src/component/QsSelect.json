@@ -34,13 +34,27 @@
       ],
       "category": "options"
     },
-    "url": {
-      "type": "Object",
-      "desc": "It is an object that contains up to four parameters. Route (REQUIRED, the url that will be requested), filterParam (optional, custom name for the request field) and filters (optional, filters passed to the route)",
+    "route": {
+      "type": "String",
+      "desc": "The url that will be requested",
       "examples": [
-        ":options=\"{ route: 'products' }\"",
-        ":options=\"{ route: 'products', filters: { brand_id: 5 } }\"",
-        ":options=\"{ route: 'products', filterParam: 'search', filters: { brand_id: 5 } }\""
+        "route=\"products\""
+      ],
+      "category": "options"
+    },
+    "filterKey": {
+      "type": "String",
+      "desc": "Custom param name for the request",
+      "examples": [
+        "filterKey=\"category_id\""
+      ],
+      "category": "options"
+    },
+    "filters": {
+      "type": "Object",
+      "desc": "An object that will be passed in the request",
+      "examples": [
+        ":options=\"{  brand_id: 5 }\""
       ],
       "category": "options"
     },
@@ -81,29 +95,34 @@
       "category": "search"
     },
     "option-value": {
-      "type": "String",
-      "desc": "Property of option which holds the 'value'",
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "value",
       "examples": [
-        "option-value=\"modelNumber\""
+        "option-value=\"modelNumber\"",
+        ":option-value=\"(item) => item === null ? null : item.modelNumber\""
       ],
       "category": "options"
     },
+
     "option-label": {
-      "type": "String",
-      "desc": "Property of option which holds the 'label'",
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "label",
       "examples": [
-        "option-label=\"itemName\""
+        "option-label=\"itemName\"",
+        ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
       ],
       "category": "options"
     },
+
     "option-disable": {
-      "type": "String",
-      "desc": "Property of option which tells it's disabled",
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "disable",
       "examples": [
-        "option-disable=\"cannotSelect\""
+        "option-disable=\"cannotSelect\"",
+        ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
       ],
       "category": "options"
     },
@@ -385,6 +404,30 @@
           "desc": "Input textfield value, if any (not QSelect model)",
           "examples": [
             "typed something"
+          ]
+        }
+      }
+    },
+    "option-caption": {
+      "desc": "A caption for the option",
+      "scope": {
+        "opt": {
+          "type": "Object",
+          "desc": "An Option",
+          "examples": [
+            "option 32"
+          ]
+        }
+      }
+    },
+    "option-side": {
+      "desc": "A side for the option",
+      "scope": {
+        "opt": {
+          "type": "Object",
+          "desc": "An Option",
+          "examples": [
+            "{ label: \"option 15\", value: 15 }"
           ]
         }
       }

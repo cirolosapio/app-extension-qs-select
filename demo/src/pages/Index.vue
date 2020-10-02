@@ -57,7 +57,7 @@
               <q-item-label>Custom request search field</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-input dense input-class="text-right" :color="config.color" v-model="filterParam" />
+              <q-input dense input-class="text-right" :color="config.color" v-model="filterKey" />
             </q-item-section>
           </q-item>
         </div>
@@ -214,7 +214,7 @@ export default {
         noClear: false,
         color: 'blue'
       },
-      filterParam: 'filter',
+      filterKey: 'filter',
       style: 'filled',
 
       locale: this.$q.lang.isoName,
@@ -253,13 +253,13 @@ export default {
     },
     options () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'array.json' : 'objects.json', filterParam: this.filterParam } }
+        if (key.includes('lazy')) return { route: key.includes('array') ? 'array.json' : 'objects.json', filterKey: this.filterKey }
         return { options: key.includes('array') ? this.array : this.objects }
       }
     },
     freezeOptions () {
       return key => {
-        if (key.includes('lazy')) return { url: { route: key.includes('array') ? 'large_array.json' : 'large_objects.json', filterParam: this.filterParam } }
+        if (key.includes('lazy')) return { route: key.includes('array') ? 'large_array.json' : 'large_objects.json', filterKey: this.filterKey }
         return { options: key.includes('array') ? this.large_array : this.large_objects }
       }
     },
