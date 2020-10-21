@@ -1,15 +1,15 @@
 <template>
   <q-select v-bind="selectProps" v-on="selectEvents">
 
-    <template v-if="value && ((multiple && value.length > 0) || opts.findIndex(opt => $refs.select.getOptionValue(opt) === value) !== -1)" #selected>
+    <template v-if="value && ((multiple && value.length > 0) || opts.findIndex(opt => $refs.select && $refs.select.getOptionValue(opt) === value) !== -1)" #selected>
       <template v-if="multiple">
         <span class="ellipsis" style="max-width: 190px" v-if="(value.length === 1 || noDenseCounter)">
-          {{ $refs.select.selectedString }}
+          {{ $refs.select && $refs.select.selectedString }}
         </span>
         <template v-else>
           {{ $q.lang.table.selectedRecords(value.length) }}
           <q-tooltip max-width="40vw" :content-class="{ 'text-caption': value.length < 5 }">
-            {{ $refs.select.selectedString }}
+            {{ $refs.select && $refs.select.selectedString }}
           </q-tooltip>
         </template>
       </template>
