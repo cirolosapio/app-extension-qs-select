@@ -207,8 +207,11 @@ export default {
     // options
     resetOptions () { this.setOptions(this.options) },
     async checkDisplayValue () {
-      if (this.route) this.setOptions(await this.fetchOptions('/' + this.value))
-      else this.resetOptions()
+      if (this.route) {
+        const optionValue = this.$attrs['option-value'] || 'value'
+        const filters = { [optionValue]: Array.isArray(this.value) ? [this.value] : this.value }
+        this.setOptions(await this.fetchOptions(filters))
+      } else this.resetOptions()
     },
     setOptions (options) {
       this.freeze && Object.freeze(options)
@@ -218,14 +221,21 @@ export default {
       if (this.options.length > 0) this.resetOptions()
       else if (this.route) this.setOptions(await this.fetchOptions())
     },
-    async fetchOptions (path = '') {
+    async fetchOptions (defaultFilters = {}) {
       this.loading = true
       let data
-      if (process.env._QsSelect.api_type === 'fetch') data = await (await fetch(this.route)).json()
-      else {
-        const params = this.filters || {}
+      const params = { ...defaultFilters, ...this.filters }
+      if (process.env._QsSelect.api_type === 'fetch') {
+        const options = { headers: { Accept: 'application/json' } }
+        const searchParams = new URLSearchParams()
+        for (const [key, value] of Object.entries(params)) {
+          if (Array.isArray(value)) value.forEach(param => searchParams.append(key + '[]', param))
+          else searchParams.append(key, value)
+        }
+        data = await (await fetch(`${this.route}?${searchParams}`, options)).json()
+      } else {
         if (this.$refs.select) params[this.filterKey || 'filter'] = this.$refs.select.inputValue
-        data = (await this[process.env._QsSelect.axios_key].get(this.route + path, { params })).data
+        data = (await this[process.env._QsSelect.axios_key].get(this.route, { params })).data
       }
       this.loading = false
       return Array.isArray(data) ? data : [data]
