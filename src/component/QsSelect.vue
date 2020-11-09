@@ -30,14 +30,14 @@
       <q-item v-bind="itemProps" v-on="{ ...itemEvents, ...hoverEvents }">
         <q-item-section>
           <q-item-label v-html="highlight($refs.select.getOptionLabel(opt))" />
-          <q-item-label caption>
+          <q-item-label caption v-if="$scopedSlots['option-caption']">
             <slot name="option-caption" :opt="opt" />
           </q-item-label>
         </q-item-section>
         <q-item-section side v-if="!noOnly && multiple && focused && hovering">
           <q-btn size="14px" padding="none sm" flat :text-color="`${$attrs.color}`" :label="$q.lang.label.select" no-caps @click.prevent.stop="only($refs.select.getOptionValue(opt))" />
         </q-item-section>
-        <q-item-section side>
+        <q-item-section side v-if="$scopedSlots['option-side']">
           <slot name="option-side" :opt="opt" />
         </q-item-section>
       </q-item>
@@ -148,14 +148,14 @@ export default {
     selectProps () {
       const attrKeys = Object.keys(this.$attrs)
       return {
+        optionsDense: true,
+        optionsSanitize: true,
         ...this.$attrs,
         ref: 'select',
         clearable: !this.noClear,
         useInput: !this.noInput && !attrKeys.includes('readonly') && !attrKeys.includes('disable'),
         emitValue: true,
         mapOptions: true,
-        optionsDense: true,
-        optionsSanitize: true,
         value: this.value,
         options: this.opts,
         loading: this.loading,
