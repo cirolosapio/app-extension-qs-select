@@ -178,10 +178,12 @@ export default {
         Object.keys(this.$listeners).includes('item')
     },
     hoverEvents () {
-      return this.noOnly ? {} : {
-        mouseenter: () => { this.hovering = true },
-        mouseleave: () => { this.hovering = false }
-      }
+      return this.noOnly
+        ? {}
+        : {
+            mouseenter: () => { this.hovering = true },
+            mouseleave: () => { this.hovering = false }
+          }
     }
   },
 

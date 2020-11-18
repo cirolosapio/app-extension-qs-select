@@ -14,20 +14,20 @@
   "dependencies": {
     "@quasar/extras": "^1.9.10",
     "axios": "^0.21.0",
-    "core-js": "^3.6.5",
-    "quasar": "^1.14.3"
+    "core-js": "^3.7.0",
+    "quasar": "^1.14.4"
   },
   "devDependencies": {
-    "@quasar/app": "^2.1.6",
-    "@quasar/quasar-app-extension-qmarkdown": "^1.0.35",
-    "eslint": "^7.12.1",
-    "eslint-config-standard": "^16.0.1",
+    "@quasar/app": "^2.1.7",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.36",
+    "eslint": "^7.13.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-quasar": "^1.0.0",
-    "eslint-plugin-standard": "^4.0.2",
+    "eslint-plugin-standard": "^4.1.0",
     "eslint-plugin-vue": "^7.1.0",
     "quasar-app-extension-qs-select": "link:../."
   },
