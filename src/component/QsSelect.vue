@@ -137,13 +137,6 @@ export default {
     }
   },
 
-  async created () {
-    if (this.value) {
-      await this.checkDisplayValue()
-      // this.haveToEmit && this.$emit('item', this.$refs.select.__getOption(this.value))
-    }
-  },
-
   computed: {
     selectProps () {
       const attrKeys = Object.keys(this.$attrs)
@@ -193,7 +186,16 @@ export default {
   },
 
   watch: {
-    options () { this.resetOptions() }
+    options () { this.resetOptions() },
+    value: {
+      immediate: true,
+      async handler (value) {
+        if (value) {
+          await this.checkDisplayValue()
+          this.haveToEmit && this.$emit('item', this.$refs.select.__getOption(value))
+        }
+      }
+    }
   },
 
   methods: {
@@ -209,7 +211,7 @@ export default {
     async checkDisplayValue () {
       if (this.route) {
         const optionValue = this.$attrs['option-value'] || 'value'
-        const filters = { [optionValue]: Array.isArray(this.value) ? [this.value] : this.value }
+        const filters = { [optionValue]: Array.isArray(this.value) ? this.value : [this.value] }
         this.setOptions(await this.fetchOptions(filters))
       } else this.resetOptions()
     },
