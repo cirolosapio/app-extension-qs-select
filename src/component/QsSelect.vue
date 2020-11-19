@@ -158,7 +158,7 @@ export default {
     },
     selectEvents () {
       return {
-        input: this.ok,
+        input: value => $emit('input', value),
         filter: this.search,
         'popup-show': () => { this.opened = true },
         'popup-hide': () => { this.opened = false }
@@ -203,10 +203,6 @@ export default {
   methods: {
     showPopup () { this.$refs.select.showPopup() },
     hidePopup () { this.$refs.select.hidePopup() },
-    ok (value) {
-      this.$emit('input', value)
-      this.haveToEmit && value && this.$emit('item', this.$refs.select.__getOption(value))
-    },
 
     // options
     resetOptions () { this.setOptions(this.options) },
