@@ -158,7 +158,7 @@ export default {
     },
     selectEvents () {
       return {
-        input: value => $emit('input', value),
+        input: value => this.$emit('input', value),
         filter: this.search,
         'popup-show': () => { this.opened = true },
         'popup-hide': () => { this.opened = false }
