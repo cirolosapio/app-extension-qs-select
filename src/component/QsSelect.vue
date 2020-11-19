@@ -193,7 +193,7 @@ export default {
       immediate: true,
       async handler (value) {
         if (value) {
-          await this.checkDisplayValue()
+          if (this.opts.length === 0) await this.checkDisplayValue()
           this.haveToEmit && this.$emit('item', this.$refs.select.__getOption(value))
         }
       }
@@ -209,7 +209,7 @@ export default {
     async checkDisplayValue () {
       if (this.route) {
         const optionValue = this.$attrs['option-value'] || 'value'
-        const filters = { [optionValue]: Array.isArray(this.value) ? this.value : [this.value] }
+        const filters = { [optionValue]: Array.isArray(this.value) ? [this.value] : this.value }
         this.setOptions(await this.fetchOptions(filters))
       } else this.resetOptions()
     },
