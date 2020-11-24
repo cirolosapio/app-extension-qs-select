@@ -90,6 +90,7 @@ export default {
   inheritAttrs: false,
   props: {
     value: {
+      // type: [Array, String, Number],
       required: true
     },
     options: {
@@ -181,9 +182,9 @@ export default {
       return this.noOnly
         ? {}
         : {
-            mouseenter: () => { this.hovering = true },
-            mouseleave: () => { this.hovering = false }
-          }
+          mouseenter: () => { this.hovering = true },
+          mouseleave: () => { this.hovering = false }
+        }
     }
   },
 
@@ -261,7 +262,7 @@ export default {
         .indexOf(filter.toLowerCase()) > -1
     },
     async search (filter, doneFn, abortFn) {
-      if (this.isLazy && this.minLength && filter.length < this.minLength) abortFn()
+      if (this.route && this.minLength && filter.length < this.minLength) abortFn()
       else {
         await this.prepareOptions()
 
