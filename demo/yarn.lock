@@ -957,10 +957,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-2.1.7.tgz#f1192d378fc120c7cbc33999c5106f50e5c803e0"
-  integrity sha512-COqWIRR9r/sZ6u8F1nbUvNACpIhsQspwQ+74tQseG0v+TzoQTbiC0qPXOXCut/3j80V2LfO/vOl6m+LzPfWo4g==
+"@quasar/app@^2.1.8":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-2.1.8.tgz#76b8d33f1a64c0b284fa7f1d72dc53a8aaa0885c"
+  integrity sha512-UxzEafauB2hHdvn+VE6seATDgGdTLt/v44wtDNrFCEOP3h/8Ie5MGJQbYnBMNHZ52rfT8X0uTXcKh9hr3JUT9g==
   dependencies:
     "@quasar/babel-preset-app" "2.0.1"
     "@quasar/fastclick" "1.1.4"
@@ -978,7 +978,7 @@
     chalk "4.1.0"
     chokidar "3.4.3"
     ci-info "2.0.0"
-    compression-webpack-plugin "6.1.1"
+    compression-webpack-plugin "5.0.1"
     copy-webpack-plugin "6.3.1"
     cross-spawn "7.0.3"
     css-loader "3.6.0"
@@ -1076,20 +1076,20 @@
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
 
-"@quasar/quasar-app-extension-qmarkdown@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmarkdown/-/quasar-app-extension-qmarkdown-1.0.36.tgz#debc9a3c7defdc1a5805c4c472082ef4e7b7f76e"
-  integrity sha512-zeVI4m6oytDApottLvjYxK0H1VtRYtZhNNR73hAPUd8xxyvnlq9cDw36xFAog1m/FpkS1Yl4iqI8URHm94GAEQ==
+"@quasar/quasar-app-extension-qmarkdown@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmarkdown/-/quasar-app-extension-qmarkdown-1.2.1.tgz#44c5fa0c46c0ffc41561ccbb11a63f150976a0c9"
+  integrity sha512-7L5zkU4ku0hjhWeGB2JjJNZ6zgqWWWU/0/WeB+WQBZEHmajeGESKbOX7zNMlLdS01dHEEp7hGVvVrGjjfGqJZg==
   dependencies:
-    "@quasar/quasar-ui-qmarkdown" "^1.0.36"
+    "@quasar/quasar-ui-qmarkdown" "^1.2.1"
     front-matter "^4.0.2"
     raw-loader "^4.0.2"
     ware-loader "^0.2.4"
 
-"@quasar/quasar-ui-qmarkdown@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmarkdown/-/quasar-ui-qmarkdown-1.0.36.tgz#5707c6e230da3c1eed15d905a128422bd1f9f2ee"
-  integrity sha512-mnvwFV14PbVKZiEMPLyjI0bM2xm7ZK3snclVfn5rpF/BxiTjlpFjH/U36nY0/cRcXr33P1MHaMIEQ5y+XmWWYg==
+"@quasar/quasar-ui-qmarkdown@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmarkdown/-/quasar-ui-qmarkdown-1.2.1.tgz#8d178cdc1db3db42e429209eda0bf3d80b1dcb97"
+  integrity sha512-kf8EXy7oKEKM+rCnbvwuawHspHSF+wLtENuq98qZpJyXxdfgPIQcnDSeKDGvNF6cCi3eaEwyZ5dq+AXfT1nFZQ==
   dependencies:
     markdown-it "^12.0.2"
     markdown-it-abbr "^1.0.4"
@@ -2653,15 +2653,15 @@ compressible@~2.0.16:
   dependencies:
     mime-db ">= 1.43.0 < 2"
 
-compression-webpack-plugin@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/compression-webpack-plugin/-/compression-webpack-plugin-6.1.1.tgz#ae8e4b2ffdb7396bb776e66918d751a20d8ccf0e"
-  integrity sha512-BEHft9M6lwOqVIQFMS/YJGmeCYXVOakC5KzQk05TFpMBlODByh1qNsZCWjUBxCQhUP9x0WfGidxTbGkjbWO/TQ==
+compression-webpack-plugin@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/compression-webpack-plugin/-/compression-webpack-plugin-5.0.1.tgz#316c1a4e4ccc94510a978c967fc143581d1e3643"
+  integrity sha512-Wcb99O4UkdDZiM+blEw6h+cUfJYCn2kgK0l3fjLOm72Stso9DVMieQpBD4PVpyI7DLL6+zNh0iJV3p4HDwTinQ==
   dependencies:
     cacache "^15.0.5"
     find-cache-dir "^3.3.1"
-    schema-utils "^3.0.0"
-    serialize-javascript "^5.0.1"
+    schema-utils "^2.7.0"
+    serialize-javascript "^4.0.0"
     webpack-sources "^1.4.3"
 
 compression@^1.7.4:
@@ -3689,10 +3689,10 @@ eslint-plugin-quasar@^1.0.0:
     requireindex "~1.2.0"
     semver-compare "^1.0.0"
 
-eslint-plugin-standard@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-4.1.0.tgz#0c3bf3a67e853f8bbbc580fb4945fbf16f41b7c5"
-  integrity sha512-ZL7+QRixjTR6/528YNGyDotyffm5OQst/sGxKDwGb9Uqs4In5Egi4+jbobhqJoyoCM6/7v/1A5fhQ7ScMtDjaQ==
+eslint-plugin-standard@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-5.0.0.tgz#c43f6925d669f177db46f095ea30be95476b1ee4"
+  integrity sha512-eSIXPc9wBM4BrniMzJRBm2uoVuXz2EPa+NXPk2+itrVt+r5SbKFERx/IgrK/HmfjddyKVz2f+j+7gBRvu19xLg==
 
 eslint-plugin-vue@^7.1.0:
   version "7.1.0"
@@ -3737,10 +3737,10 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.0.0.tgz#21fdc8fbcd9c795cc0321f0563702095751511a8"
   integrity sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
 
-eslint@^7.13.0:
-  version "7.13.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.13.0.tgz#7f180126c0dcdef327bfb54b211d7802decc08da"
-  integrity sha512-uCORMuOO8tUzJmsdRtrvcGq5qposf7Rw0LwkTJkoDbOycVQtQjmnhZSuLQnozLE4TmAzlMVV45eCHmQ1OpDKUQ==
+eslint@^7.14.0:
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.14.0.tgz#2d2cac1d28174c510a97b377f122a5507958e344"
+  integrity sha512-5YubdnPXrlrYAFCKybPuHIAH++PINe1pmKNc5wQRB9HSbqIK1ywAnntE3Wwua4giKu0bjligf1gLF6qxMGOYRA==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@eslint/eslintrc" "^0.2.1"
@@ -7193,10 +7193,10 @@ qs@6.7.0:
   version "0.0.0"
   uid ""
 
-quasar@^1.14.4:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.4.tgz#5752e6dab26f7f54fec055b407c9ac4872d8e3f8"
-  integrity sha512-wUVhJHk5BllS3fYT9CSmD6DWYZBkDTi9EA5A+BQlN1DsOobTAdt+2T4FZ6rLs4FZmY82FNiKjIYgB1NCeYWHHg==
+quasar@^1.14.5:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.5.tgz#dd432ea9b0d7d7e7cedf12e2d8a20d35e944d4e9"
+  integrity sha512-K/rYbL5U8Wel31Lqr6VIJcWNXIoa4DSfNQ56Yrw+H/AKSmWMsyDyQcPYX9qMjhaSvEd/HOIIBdfOxx+eO6weAA==
 
 query-string@^4.1.0:
   version "4.3.4"
