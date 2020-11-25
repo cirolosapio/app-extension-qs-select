@@ -182,14 +182,15 @@ export default {
       return this.noOnly
         ? {}
         : {
-          mouseenter: () => { this.hovering = true },
-          mouseleave: () => { this.hovering = false }
-        }
+            mouseenter: () => { this.hovering = true },
+            mouseleave: () => { this.hovering = false }
+          }
     }
   },
 
   watch: {
     options () { this.resetOptions() },
+    async filters () { await this.prepareOptions() },
     value: {
       immediate: true,
       async handler (value) {
