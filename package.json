@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.14.0",
+    "eslint": "^7.18.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -39,7 +39,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-quasar": "^1.0.0",
     "eslint-plugin-standard": "^5.0.0",
-    "eslint-plugin-vue": "^7.1.0"
+    "eslint-plugin-vue": "^7.4.1"
   },
   "resolutions": {
     "@babel/parser": "7.7.5"
