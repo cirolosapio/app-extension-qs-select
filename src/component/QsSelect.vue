@@ -178,6 +178,7 @@ export default {
         this.route &&
         Object.keys(this.$listeners).includes('item')
     },
+    canFetch () { return !this.minLength || (this.minLength && this.minLength <= this.$refs.select.inputValue.length) },
     hoverEvents () {
       return this.noOnly
         ? {}
@@ -190,7 +191,7 @@ export default {
 
   watch: {
     options () { this.resetOptions() },
-    async filters () { await this.prepareOptions() },
+    async filters () { this.canFetch && await this.prepareOptions() },
     value: {
       immediate: true,
       async handler (value) {
@@ -263,7 +264,7 @@ export default {
         .indexOf(filter.toLowerCase()) > -1
     },
     async search (filter, doneFn, abortFn) {
-      if (this.route && this.minLength && filter.length < this.minLength) abortFn()
+      if (!this.canFetch) abortFn()
       else {
         await this.prepareOptions()
 
