@@ -78,6 +78,11 @@
       "desc": "Disable the select-all feature",
       "category": "options"
     },
+    "watchFilters": {
+      "type": "Boolean",
+      "desc": "Enable watcher on filters object",
+      "category": "options"
+    },
     "noDenseCounter": {
       "type": "Boolean",
       "desc": "Does not wrap selection in the display value; Available only when multiple.",
@@ -95,7 +100,10 @@
       "category": "search"
     },
     "option-value": {
-      "type": [ "Function", "String" ],
+      "type": [
+        "Function",
+        "String"
+      ],
       "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "value",
       "examples": [
@@ -104,9 +112,11 @@
       ],
       "category": "options"
     },
-
     "option-label": {
-      "type": [ "Function", "String" ],
+      "type": [
+        "Function",
+        "String"
+      ],
       "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "label",
       "examples": [
@@ -115,9 +125,11 @@
       ],
       "category": "options"
     },
-
     "option-disable": {
-      "type": [ "Function", "String" ],
+      "type": [
+        "Function",
+        "String"
+      ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "disable",
       "examples": [
@@ -422,6 +434,18 @@
     },
     "option-side": {
       "desc": "A side for the option",
+      "scope": {
+        "opt": {
+          "type": "Object",
+          "desc": "An Option",
+          "examples": [
+            "{ label: \"option 15\", value: 15 }"
+          ]
+        }
+      }
+    },
+    "extra-side": {
+      "desc": "An extra side for the option",
       "scope": {
         "opt": {
           "type": "Object",

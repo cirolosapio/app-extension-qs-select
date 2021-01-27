@@ -40,6 +40,7 @@
         <q-item-section side v-if="$scopedSlots['option-side']">
           <slot name="option-side" :opt="opt" />
         </q-item-section>
+        <slot name="extra-side" :opt="opt" v-if="$scopedSlots['extra-side']" />
       </q-item>
     </template>
 
