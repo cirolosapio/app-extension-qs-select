@@ -122,6 +122,7 @@ export default {
     multiple: Boolean,
     noClear: Boolean,
     noInput: Boolean,
+    watchFilters: Boolean,
     noClientSearch: Boolean,
     noDenseCounter: Boolean,
     noOnly: Boolean,
@@ -180,18 +181,17 @@ export default {
     },
     canFetch () { return !this.minLength || (this.minLength && this.minLength <= this.$refs.select.inputValue.length) },
     hoverEvents () {
-      return this.noOnly
-        ? {}
-        : {
-            mouseenter: () => { this.hovering = true },
-            mouseleave: () => { this.hovering = false }
-          }
+      if (this.noOnly) return {}
+      return {
+        mouseenter: () => { this.hovering = true },
+        mouseleave: () => { this.hovering = false }
+      }
     }
   },
 
   watch: {
     options () { this.resetOptions() },
-    async filters () { this.canFetch && await this.prepareOptions() },
+    async filters () { this.watchFilters && this.canFetch && await this.prepareOptions() },
     value: {
       immediate: true,
       async handler (value) {
