@@ -270,9 +270,10 @@ export default {
         await this.prepareOptions()
 
         doneFn(() => {
-          const results = this.noClientSearch
-            ? this.opts
-            : this.opts.filter(this.searchFn(filter))
+          const haveToSearch = this.noClientSearch ? false : !this.route
+          const results = haveToSearch
+            ? this.opts.filter(this.searchFn(filter))
+            : this.opts
           this.setOptions(results)
         })
       }
