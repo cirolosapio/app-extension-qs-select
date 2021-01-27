@@ -218,7 +218,8 @@ export default {
       } else this.resetOptions()
     },
     setOptions (options) {
-      this.freeze && Object.freeze(options)
+      const haveToFreeze = this.freeze ? true : Boolean(this.route)
+      haveToFreeze && Object.freeze(options)
       this.opts = options
     },
     async prepareOptions () {
