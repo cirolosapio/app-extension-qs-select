@@ -172,7 +172,7 @@ export default {
       return label => {
         const regex = new RegExp(`(${this.$refs.select.inputValue})`, 'ig')
         const replace = `<span class="${this.highlightClass}">$1</span>`
-        return label.replace(regex, replace)
+        return String(label).replace(regex, replace)
       }
     },
     haveToEmit () {
@@ -261,7 +261,7 @@ export default {
 
     // search
     searchFn (filter) {
-      return opt => this.$refs.select.getOptionLabel(opt)
+      return opt => String(this.$refs.select.getOptionLabel(opt))
         .toLowerCase()
         .indexOf(filter.toLowerCase()) > -1
     },
