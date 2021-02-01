@@ -142,14 +142,13 @@ export default {
 
   computed: {
     selectProps () {
-      const attrKeys = Object.keys(this.$attrs)
       return {
         optionsDense: true,
         optionsSanitize: true,
         ...this.$attrs,
         ref: 'select',
         clearable: !this.noClear,
-        useInput: !this.noInput && !attrKeys.includes('readonly') && !attrKeys.includes('disable'),
+        useInput: !this.noInput,
         emitValue: true,
         mapOptions: true,
         value: this.value,
