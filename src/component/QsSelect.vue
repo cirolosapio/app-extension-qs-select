@@ -269,13 +269,21 @@ export default {
       else {
         await this.prepareOptions()
 
-        doneFn(() => {
-          const haveToSearch = this.noClientSearch ? false : !this.route
-          const results = haveToSearch
-            ? this.opts.filter(this.searchFn(filter))
-            : this.opts
-          this.setOptions(results)
-        })
+        doneFn(
+          () => {
+            const haveToSearch = this.noClientSearch ? false : !this.route
+            const results = haveToSearch
+              ? this.opts.filter(this.searchFn(filter))
+              : this.opts
+            this.setOptions(results)
+          },
+          ref => {
+            if (filter !== '' && ref.options.length > 0) {
+              ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
+              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+            }
+          }
+        )
       }
     }
   }
