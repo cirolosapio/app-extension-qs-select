@@ -195,7 +195,10 @@ export default {
     value: {
       immediate: true,
       async handler (value) {
-        if (value) {
+        if (
+          value &&
+          (!this.multiple || (this.multiple && this.value.length > 0))
+        ) {
           if (this.opts.length === 0) await this.checkDisplayValue()
           this.haveToEmit && this.$emit('item', this.$refs.select.__getOption(value))
         }
