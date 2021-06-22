@@ -1,5 +1,8 @@
-<img src="https://img.shields.io/npm/v/quasar-ui-qs-select.svg?label=quasar-ui-qs-select">
-<img src="https://img.shields.io/npm/v/quasar-app-extension-qs-select.svg?label=quasar-app-extension-qs-select">
+![npm](https://img.shields.io/npm/v/quasar-ui-qs-select.svg?label=quasar-ui-qs-select)
+![npm](https://img.shields.io/npm/dm/quasar-ui-qs-select.svg)
+
+![npm](https://img.shields.io/npm/v/quasar-app-extension-qs-select?label=quasar-app-extension-qs-select)
+![npm](https://img.shields.io/npm/dm/quasar-app-extension-qs-select)
 
 Compatible with Quasar UI v2 and Vue 3.
 
