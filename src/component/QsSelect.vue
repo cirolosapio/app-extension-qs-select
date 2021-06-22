@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import TransitionMixin from 'quasar/src/mixins/transition.js'
+import TransitionMixin from 'quasar/src/mixins/transition'
 export default {
   name: 'QsSelect',
   mixins: [TransitionMixin],
@@ -101,14 +101,6 @@ export default {
     highlightClass: {
       type: String,
       default: () => 'text-teal'
-    },
-    transitionShow: {
-      type: String,
-      default: () => 'jump-left'
-    },
-    transitionHide: {
-      type: String,
-      default: () => 'jump-right'
     },
     minLength: {
       type: [String, Number],
