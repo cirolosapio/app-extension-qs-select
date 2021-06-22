@@ -23,8 +23,8 @@ module.exports = function (api) {
   // register JSON api
   api.registerDescribeApi('QsSelect', './component/QsSelect.json')
 
-  api.compatibleWith('quasar', '1.x')
-  api.compatibleWith('@quasar/app', '2.x')
+  api.compatibleWith('quasar', '^1.0.0')
+  api.compatibleWith('@quasar/app', '^2.0.0')
 
   // extend quasar.conf
   api.extendQuasarConf(conf => extendConf(conf, api.prompts))
